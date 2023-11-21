@@ -9,6 +9,8 @@ import modal from './modalReducer'
 import detailPost from './detailPostReducer'
 import discover from './discoverReducer'
 import suggestions from './suggestionsReducer'
+import dating from './datingReducer'
+import suggestionsMatching from './suggestionsMatchingReducer'
 import socket from './socketReducer'
 import notify from './notifyReducer'
 import message from './messageReducer'
@@ -28,6 +30,8 @@ export default combineReducers({
     detailPost,
     discover,
     suggestions,
+    dating,
+    suggestionsMatching,
     socket,
     notify,
     message,

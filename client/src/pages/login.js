@@ -32,12 +32,12 @@ const Login = () => {
     return (
         <div className="auth_page">
             <form onSubmit={handleSubmit}>
-                <h3 className="text-uppercase text-center mb-4">Social Media</h3>
+                <h3 className="text-uppercase text-center mb-4">Dating</h3>
 
                 <div className="form-group">
                     <label htmlFor="exampleInputEmail1">Email address</label>
                     <input type="email" className="form-control" id="exampleInputEmail1" name="email"
-                    aria-describedby="emailHelp" onChange={handleChangeInput} value={email} />
+                    aria-describedby="emailHelp" autoComplete='username' onChange={handleChangeInput} value={email} />
                     
                     <small id="emailHelp" className="form-text text-muted">
                         We'll never share your email with anyone else.
@@ -50,7 +50,7 @@ const Login = () => {
                     <div className="pass">
                         
                         <input type={ typePass ? "text" : "password" } 
-                        className="form-control" id="exampleInputPassword1"
+                        className="form-control" id="exampleInputPassword1" autoComplete='current-password'
                         onChange={handleChangeInput} value={password} name="password" />
 
                         <small onClick={() => setTypePass(!typePass)}>

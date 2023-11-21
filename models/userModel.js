@@ -38,10 +38,12 @@ const userSchema = new mongoose.Schema({
         default: '',
         maxlength: 200
     },
-    website: {type: String, default: ''},
-    followers: [{type: mongoose.Types.ObjectId, ref: 'user'}],
-    following: [{type: mongoose.Types.ObjectId, ref: 'user'}],
-    saved: [{type: mongoose.Types.ObjectId, ref: 'user'}]
+    website: { type: String, default: '' },
+    followers: [{ type: mongoose.Types.ObjectId, ref: 'user' }],
+    following: [{ type: mongoose.Types.ObjectId, ref: 'user' }],
+    matchStatus: { type: String, default: 'none' },
+    matching: { type: mongoose.Types.ObjectId, ref: 'user', isMatch: { type: Boolean, default: false } },
+    saved: [{ type: mongoose.Types.ObjectId, ref: 'user' }]
 }, {
     timestamps: true
 })

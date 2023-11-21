@@ -29,10 +29,14 @@ code {
 }
 
 .main {
-  max-width: 1000px;
+  max-width: 1200px;
   width: 100%;
   min-height: 100vh;
   margin: auto;
+}
+
+.ReactModal__Overlay{
+  z-index: 999;
 }
 
 img {
@@ -74,6 +78,9 @@ img {
 
 /* -------- Icons---------- */
 @import url("./icons.css");
+
+/* -------- Dating---------- */
+@import url("./dating.css");
 
 /* -------- Call Modal---------- */
 @import url("./call_modal.css");

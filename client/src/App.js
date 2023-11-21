@@ -1,5 +1,5 @@
 import { useEffect } from 'react'
-import {BrowserRouter as Router, Route} from 'react-router-dom'
+import { BrowserRouter as Router, Route } from 'react-router-dom'
 
 import PageRender from './customRouter/PageRender'
 import PrivateRouter from './customRouter/PrivateRouter'
@@ -16,6 +16,8 @@ import { useSelector, useDispatch } from 'react-redux'
 import { refreshToken } from './redux/actions/authAction'
 import { getPosts } from './redux/actions/postAction'
 import { getSuggestions } from './redux/actions/suggestionsAction'
+import { getSuggestionsMatching } from './redux/actions/suggestionsMatchingAction'
+import { getDatingTimeline } from './redux/actions/datingAction'
 
 import io from 'socket.io-client'
 import { GLOBALTYPES } from './redux/actions/globalTypes'
@@ -24,6 +26,7 @@ import SocketClient from './SocketClient'
 import { getNotifies } from './redux/actions/notifyAction'
 import CallModal from './components/message/CallModal'
 import Peer from 'peerjs'
+import { getUser } from './redux/actions/profileAction'
 
 function App() {
   const { auth, status, modal, call } = useSelector(state => state)
@@ -32,40 +35,44 @@ function App() {
   useEffect(() => {
     dispatch(refreshToken())
 
-    const socket = io()
-    dispatch({type: GLOBALTYPES.SOCKET, payload: socket})
+    const socket = io("http://localhost:5000")
+    dispatch({ type: GLOBALTYPES.SOCKET, payload: socket })
     return () => socket.close()
-  },[dispatch])
+  }, [dispatch])
 
   useEffect(() => {
-    if(auth.token) {
+    if (auth.token) {
       dispatch(getPosts(auth.token))
       dispatch(getSuggestions(auth.token))
+      dispatch(getUser({ id: auth.user._id, auth }))
+      dispatch(getSuggestionsMatching(auth.token))
+      dispatch(getDatingTimeline({ user: auth.user._id, matchingId:auth.user.matching?._id ,token: auth.token }))
       dispatch(getNotifies(auth.token))
     }
+    // eslint-disable-next-line
   }, [dispatch, auth.token])
 
-  
+
   useEffect(() => {
     if (!("Notification" in window)) {
       alert("This browser does not support desktop notification");
     }
-    else if (Notification.permission === "granted") {}
+    else if (Notification.permission === "granted") { }
     else if (Notification.permission !== "denied") {
       Notification.requestPermission().then(function (permission) {
-        if (permission === "granted") {}
+        if (permission === "granted") { }
       });
     }
-  },[])
+  }, [])
 
- 
+
   useEffect(() => {
     const newPeer = new Peer(undefined, {
       path: '/', secure: true
     })
-    
+
     dispatch({ type: GLOBALTYPES.PEER, payload: newPeer })
-  },[dispatch])
+  }, [dispatch])
 
 
   return (
@@ -79,13 +86,13 @@ function App() {
           {status && <StatusModal />}
           {auth.token && <SocketClient />}
           {call && <CallModal />}
-          
+
           <Route exact path="/" component={auth.token ? Home : Login} />
           <Route exact path="/register" component={Register} />
 
           <PrivateRouter exact path="/:page" component={PageRender} />
           <PrivateRouter exact path="/:page/:id" component={PageRender} />
-          
+
         </div>
       </div>
     </Router>

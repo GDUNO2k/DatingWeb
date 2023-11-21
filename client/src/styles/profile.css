@@ -170,3 +170,8 @@
     border-bottom: 1px solid #000;
     opacity: 0.8;
 }
+
+/* --------- Dating ----------- */
+.dating-card{
+    width: auto !important;
+}
